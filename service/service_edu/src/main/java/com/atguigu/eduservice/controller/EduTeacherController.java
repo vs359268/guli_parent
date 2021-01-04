@@ -5,6 +5,7 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
 import com.atguigu.eduservice.entity.vo.TeacherQuery;
 import com.atguigu.eduservice.service.EduTeacherService;
+import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -24,7 +25,7 @@ import java.util.Map;
  * </p>
  *
  * @author sunhao
- * @since 2020-12-24
+ * @since 2021-01-05
  */
 @Api(tags = "讲师管理")
 @RestController
@@ -38,6 +39,11 @@ public class EduTeacherController {
     @GetMapping("findAll")
     public R findAllTearcher(){
         List<EduTeacher> list = eduTeacherService.list(null);
+        try {
+            int a=10/0;
+        }catch (Exception e){
+            throw new GuliException(20001,"执行了自定义异常处理");
+        }
         return R.ok().data("items",list);
     }
     //2.逻辑删除
