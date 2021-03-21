@@ -27,9 +27,10 @@ import java.util.Map;
  * @author sunhao
  * @since 2021-01-05
  */
+@CrossOrigin
 @Api(tags = "讲师管理")
 @RestController
-@RequestMapping("/eduservice/edu-teacher")
+@RequestMapping("/eduservice/teacher")
 public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
@@ -39,11 +40,12 @@ public class EduTeacherController {
     @GetMapping("findAll")
     public R findAllTearcher(){
         List<EduTeacher> list = eduTeacherService.list(null);
-        try {
-            int a=10/0;
-        }catch (Exception e){
-            throw new GuliException(20001,"执行了自定义异常处理");
-        }
+        System.out.println(list);
+        //        try {
+//            int a=10/0;
+//        }catch (Exception e){
+//            throw new GuliException(20001,"执行了自定义异常处理");
+//        }
         return R.ok().data("items",list);
     }
     //2.逻辑删除
@@ -105,6 +107,8 @@ public class EduTeacherController {
         if(!StringUtils.isEmpty(end)){
             wrapper.le("gmt_create",end);
         }
+        //排序
+        wrapper.orderByDesc("gmt_create");
         eduTeacherService.page(pageTeacher,wrapper);
         long total = pageTeacher.getTotal();
         List<EduTeacher> records = pageTeacher.getRecords();
